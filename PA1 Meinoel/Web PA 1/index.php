@@ -140,7 +140,7 @@
       <div class="row">
         <div class="col-md-12 text-center marb-35">
           <h1 class="header-h">Produk Kami</h1>
-          <p class="header-p">Anda dapat Memesan Produk Kami Melalui Whatsapp</p>
+          <p class="header-p">Anda dapat Memesan Produk Kami Melalui Situs Ini <br>atau Memebelinya Langsung ke Alamat yang Tertera pada Bagian Bawah Situs </p>
           <br>
         </div>
         <div class="row">
@@ -376,7 +376,7 @@ addToCartButtons.forEach(function (button) {
     }
 
     // Menampilkan alert
-    alert('Produk berhasil ditambahkan ke keranjang');
+    alert('Produk berhasil ditambahkan ke keranjang.\nSilahkan cek pesanan anda pada icon keranjang di kanan atas layar!');
 
     // Mengarahkan pengguna ke bagian produk
     const productSection = document.querySelector('#product');
