@@ -1,55 +1,73 @@
 <?php
 session_start();
-if(!isset($_SESSION['loggedin'])){
-  header('Location:../index.php');
+if (!isset($_SESSION['loggedin'])) {
+  header('Location: ../index.php');
   exit;
 }
-//koneksi ke database
-$host = "nama_host"; //ganti dengan nama host Anda
-$user = "nama_pengguna"; //ganti dengan nama pengguna Anda
-$password = "password"; //ganti dengan password Anda
-$database = "nama_database"; //ganti dengan nama database Anda
-$koneksi = mysqli_connect('localhost:3307', 'root', '', 'db_meinoel');
+// koneksi ke database
+require('config/config.php');
 
-//mendapatkan id produk dari parameter URL
-$id = $_GET['id'];
+// mendapatkan id produk dari parameter URL
+if (isset($_GET['id'])) {
+  $id = $_GET['id'];
+} else {
+  // Tampilkan pesan kesalahan jika id produk tidak diberikan
+  echo "ID produk tidak ditemukan.";
+  exit;
+}
 
-//jika tombol submit di klik
+// jika tombol submit di klik
 if (isset($_POST['submit'])) {
   $nama = $_POST['nama_produk'];
   $harga = $_POST['harga_produk'];
   $stok = $_POST['stok'];
   $kategori = $_POST['kategori'];
-  
-  // Cek apakah ada file gambar yang diunggah
-  if(!empty($_FILES['foto_produk']['tmp_name'])) {
-    $foto = $_FILES['foto_produk']['tmp_name'];
-    $gambar = addslashes(file_get_contents($foto));
-    //mengubah data produk di database beserta file gambar yang diunggah
-    $query = "UPDATE produk SET nama_produk='$nama', harga_produk='$harga',stok='$stok', foto_produk='$gambar', kategori='$kategori' WHERE id_produk='$id'";
-    mysqli_query($koneksi, $query);
-  } else {
-    //mengubah data produk di database tanpa mengubah file gambar
-    $query = "UPDATE produk SET nama_produk='$nama', harga_produk='$harga',stok='$stok', kategori='$kategori' WHERE id_produk='$id'";
-    mysqli_query($koneksi, $query);
+
+  // Memeriksa apakah produk dengan nama yang sama sudah ada dalam database
+  $query_check = "SELECT * FROM produk WHERE nama_produk = '$nama'";
+  $result_check = mysqli_query($conn, $query_check);
+  if (mysqli_num_rows($result_check) > 0) {
+    // Produk sudah ada dalam database, tampilkan alert
+    echo "<script>alert('Produk dengan nama tersebut sudah ada');window.location.href = 'tambah.php';</script>";
+    exit;
   }
 
-  //redirect ke halaman admin
+  // Cek apakah ada file gambar yang diunggah
+  if (!empty($_FILES['foto_produk']['tmp_name'])) {
+    $foto = $_FILES['foto_produk']['tmp_name'];
+    $gambar = addslashes(file_get_contents($foto));
+    // mengubah data produk di database beserta file gambar yang diunggah
+    $query = "UPDATE produk SET nama_produk='$nama', harga_produk='$harga', stok='$stok', foto_produk='$gambar', kategori='$kategori' WHERE id_produk='$id'";
+    mysqli_query($conn, $query);
+  } else {
+    // mengubah data produk di database tanpa mengubah file gambar
+    $query = "UPDATE produk SET nama_produk='$nama', harga_produk='$harga', stok='$stok', kategori='$kategori' WHERE id_produk='$id'";
+    mysqli_query($conn, $query);
+  }
+
+  // redirect ke halaman admin
   header('Location: admin.php');
+  exit;
 }
 
-//menampilkan data produk yang akan diubah
+// menampilkan data produk yang akan diubah
 $query = "SELECT * FROM produk WHERE id_produk='$id'";
-$hasil = mysqli_query($koneksi, $query);
-$row = mysqli_fetch_assoc($hasil);
-$nama = $row['nama_produk'];
-$harga = $row['harga_produk'];
-$stok = $row['stok'];
-$kategori = $row['kategori'];
-$foto = $row['foto_produk'];
-$foto_produk = base64_encode($foto);
-
- ?>
+$hasil = mysqli_query($conn, $query);
+if (mysqli_num_rows($hasil) > 0) {
+  $row = mysqli_fetch_assoc($hasil);
+  $nama = $row['nama_produk'];
+  $harga = $row['harga_produk'];
+  $stok = $row['stok'];
+  $kategori = $row['kategori'];
+  $foto = $row['foto_produk'];
+  $foto_produk = base64_encode($foto);
+} else {
+  // Produk tidak ditemukan, lakukan penanganan kesalahan sesuai kebutuhan Anda
+  // Contoh:
+  echo "Produk tidak ditemukan.";
+  exit;
+}
+?>
 
 <!DOCTYPE html>
 <html>
@@ -106,33 +124,53 @@ $foto_produk = base64_encode($foto);
       </div>
 
       <div class="form-group">
-        <label for="harga_produk">Harga Produk:</label>
-        <input type="number" class="form-control" id="harga_produk" name="harga_produk" value="<?php echo $harga; ?>">
-      </div>
+    <label for="harga_produk">Harga Produk:</label>
+    <input type="number" class="form-control" id="harga_produk" name="harga_produk" value="<?php echo $harga; ?>" min="0" required>
+</div>
 
-      <div class="form-group">
-        <label for="stok">Jumlah Stok:</label>
-        <input type="number" class="form-control" id="stok" name="stok" value="<?php echo $stok; ?>">
-      </div>
+<div class="form-group">
+    <label for="stok">Jumlah Stok:</label>
+    <input type="number" class="form-control" id="stok" name="stok" value="<?php echo $stok; ?>" min="0" required>
+</div>
+
 
       <?php
-        // Contoh data kategori yang sudah masuk ke database
-        $kategori_produk = array("keripik", "minuman", "cemilan", "sambal");
-        $kategori_terpilih = $kategori; // Contoh kategori terpilih dari database
+// Koneksi ke database
+require('config/config.php');
 
-              ?>
-      <div class="form-group">
-        <label for="kategori">Kategori:</label>
-        <select class="form-control" id="kategori" name="kategori" required>
-          <option value="" selected disabled>Pilih Kategori</option>
-          <?php
-            foreach ($kategori_produk as $kategori_item) {
-              $selected = ($kategori_item == $kategori_terpilih) ? "selected" : "";
-              echo "<option value=\"$kategori_item\" $selected>$kategori_item</option>";
-            }
+// Query untuk mendapatkan data kategori dari database
+$sql = "SELECT * FROM kategori";
+$result = $conn->query($sql);
+
+// Inisialisasi array kategori_produk
+$kategori_produk = array();
+
+if ($result->num_rows > 0) {
+    // Memasukkan data kategori ke dalam array kategori_produk
+    while ($row = $result->fetch_assoc()) {
+        $kategori_item = $row["nama_kategori"];
+        array_push($kategori_produk, $kategori_item);
+    }
+}
+
+// Menutup koneksi database
+$conn->close();
+?>
+
+<div class="form-group">
+    <label for="kategori">Kategori:</label>
+    <select class="form-control" id="kategori" name="kategori" required>
+        <option value="" selected disabled>Pilih Kategori</option>
+        <?php
+        foreach ($kategori_produk as $kategori_item) {
+            $selected = ($kategori_item == $kategori_terpilih) ? "selected" : "";
+            echo "<option value=\"$kategori_item\" $selected>$kategori_item</option>";
+        }
         ?>
-        </select>
-      </div>
+    </select>
+</div>
+
+
       <div class="form-group">
         <label for="foto_produk">Foto Produk:</label>
         <input type="file" class="form-control-file" id="foto_produk" name="foto_produk" accept=".jpg, .jpeg">
@@ -173,7 +211,5 @@ $foto_produk = base64_encode($foto);
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-  <?php
-  mysqli_close($koneksi);
-  ?>
+
 </body>

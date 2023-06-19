@@ -67,8 +67,11 @@ if(!isset($_SESSION['loggedin'])){
 <nav id="navbar" class="nav-menu navbar">
   <ul>
     <li><a href="#product" class="nav-link scrollto active"><i class="bx bx-box"></i> <span>Product</span></a></li>
-    <li><a href="feedbackuser.php"><i class="bx bx-comment"></i> <span>Feedback</span></a></li>
-    <li><a href="#" onclick="showConfirmationModal()"><i class="bx bx-log-out"></i> <span>Log Out</span></a></li>
+    <li><a href="kategori.php"><i class="bx bx-category-alt"></i> <span>Kategori</span></a></li>
+    <li><a href="pencapaian.php"><i class="bx bx-trophy"></i> <span>Pencapaian</span></a></li>
+    <li><a href="feedbackuser.php"><i class="bx bx-comment"></i> <span>Ulasan</span></a></li>
+    <li><a href="sosmed.php"><i class="bx bx-mobile-alt"></i> <span>Sosial Media</span></a></li>
+    <li><a href="#" onclick="showConfirmationModal()"><i class="bx bx-log-out"></i> <span>Keluar</span></a></li>
   </ul>
 </nav>
 
@@ -140,7 +143,7 @@ if(!isset($_SESSION['loggedin'])){
       echo "<div class='table-responsive ml-auto'>";
       echo "<table class='table table-striped'>
               <thead class='thead-dark'>
-                  <tr>
+                  <tr class='feedback-row'>
                       <th>No.</th>
                       <th>Nama Produk</th>
                       <th>Foto Produk</th>

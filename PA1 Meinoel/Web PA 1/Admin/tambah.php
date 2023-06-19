@@ -6,11 +6,7 @@ if(!isset($_SESSION['loggedin'])){
 }
 
 //koneksi ke database
-$host = "nama_host"; 
-$user = "nama_pengguna"; 
-$password = "password"; 
-$database = "nama_database"; 
-$koneksi = mysqli_connect('localhost:3307', 'root', '', 'db_meinoel');
+require('config/config.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     //mengambil nilai dari form
@@ -19,6 +15,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $harga_produk = $_POST['harga_produk'];
     $kategori = $_POST['kategori'];
     $stok = $_POST['stok'];
+
+    // Memeriksa apakah produk dengan nama yang sama sudah ada dalam database
+    $query_check = "SELECT * FROM produk WHERE nama_produk = '$nama_produk'";
+    $result_check = mysqli_query($conn, $query_check);
+    if (mysqli_num_rows($result_check) > 0) {
+        // Produk sudah ada dalam database, tampilkan alert
+        echo "<script>alert('Produk dengan nama tersebut sudah ada');window.location.href = 'tambah.php';</script>";
+        exit;
+    }
 
     //mengambil data gambar dan mengubah ukuran menjadi rasio 1x1
     $image_info = getimagesize($foto_produk);
@@ -61,20 +66,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     $gambar = addslashes(ob_get_clean());
 
+
     //menambah data ke database
     $query = "INSERT INTO produk (nama_produk, foto_produk, harga_produk, kategori, stok) VALUES ('$nama_produk', '$gambar', '$harga_produk','$kategori','$stok')";
-    mysqli_query($koneksi, $query);
+    mysqli_query($conn, $query);
 
     //mengarahkan ke halaman utama
     header("Location: admin.php");
     exit;
 }
 
-
-mysqli_close($koneksi);
+mysqli_close($conn);
 ?>
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -145,29 +148,48 @@ mysqli_close($koneksi);
       <div class="form-group row">
         <label for="harga_produk" class="col-sm-2 col-form-label">Harga Produk:</label>
         <div class="col-sm-10">
-          <input type="text" name="harga_produk" id="harga_produk" class="form-control" required>
+          <input type="number" name="harga_produk" id="harga_produk" class="form-control" min="0" required>
         </div>
       </div>
 
       <div class="form-group row">
         <label for="stok" class="col-sm-2 col-form-label">Stok Tersedia:</label>
         <div class="col-sm-10">
-          <input type="text" name="stok" id="stok" class="form-control" required>
+          <input type="number" name="stok" id="stok" class="form-control"min="0"  required>
         </div>
       </div>
 
       <div class="form-group row">
-        <label for="kategori" class="col-sm-2 col-form-label">Kategori:</label>
-        <div class="col-sm-10 ">
-          <select name="kategori" id="kategori" class="form-control" required>
+    <label for="kategori" class="col-sm-2 col-form-label">Kategori:</label>
+    <div class="col-sm-10 ">
+        <select name="kategori" id="kategori" class="form-control" required>
             <option value="">Pilih Kategori</option>
-            <option value="keripik">Keripik</option>
-            <option value="minuman">Minuman</option>
-            <option value="cemilan">Cemilan</option>
-            <option value="sambal">Sambal</option>
-          </select>
-        </div>
-      </div>
+
+            <?php
+            // Koneksi ke database
+            require('config/config.php');
+
+            // Query untuk mendapatkan data kategori dari database
+            $sql = "SELECT * FROM kategori";
+            $result = $conn->query($sql);
+
+            if ($result && $result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $nama_kategori = $row["nama_kategori"];
+                    echo '<option value="' . $nama_kategori . '">' . $nama_kategori . '</option>';
+                }
+            } else {
+                echo 'Error: ' . $conn->error;
+            }
+
+            // Menutup koneksi database
+            $conn->close();
+            ?>
+
+        </select>
+    </div>
+</div>
+
 
       <div class="form-group row">
         <div class="col-sm-2 col-form-label"></div>

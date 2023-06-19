@@ -24,6 +24,7 @@
 .fa-user {
   font-size: 2rem;
   color: rgb(20, 20, 20);
+  margin-left: 5px;
 }
 
 .fa-user a:hover {
@@ -31,6 +32,16 @@
   transform: scale(1.4;) /* Perbesar ikon saat dihover */
 }
 
+.fa-shopping-cart {
+  font-size: 2rem;
+  color: rgb(20, 20, 20);
+  margin-right: 5px;
+}
+
+.fa-shopping-cart a:hover {
+  color: rgb(20, 20, 20); /* Atur warna teks ikon saat dihover */
+  transform: scale(1.4;) /* Perbesar ikon saat dihover */
+}
 .container {
   display: grid;
 }
@@ -859,7 +870,7 @@ address a:hover {
       z-index: 1;
       left: 0;
       top: 0;
-      width: 100%;
+      width: 120%;
       height: 100%;
       overflow: auto;
       background-color: rgba(0, 0, 0, 0.4);
@@ -906,7 +917,7 @@ address a:hover {
   margin: 10% auto;
   padding: 20px;
   border-radius: 10px;
-  max-width: 400px;
+  max-width: 550px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   }
   

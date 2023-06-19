@@ -32,64 +32,75 @@
 <body>
   <!--navbar-->
   <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top" style="position: sticky; top: 0; margin-bottom: 0;">
-  <div class="container-fluid">
-    <div class="navbar-brand">
-      <a href="#banner">
-        <img src="img/logo.png" alt="Logo">
-      </a>
+    <div class="container-fluid">
+      <div class="navbar-brand">
+        <a href="#banner">
+          <img src="img/logo.png" alt="Logo">
+        </a>
+      </div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="#menu-list">Produk</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#achiev">Pencapaian</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#about">Tentang</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#feedback">Ulasan</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="" href=""></a>
+          </li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+          <li> <a class="nav-link" href="#"><i class="fa fa-user" id="meinoelText"></i></a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li> <a class="nav-link" href="#"><i class="fa fa-shopping-cart" id="keranjang"></i></a></li>
+        </ul>
+      </div>
     </div>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-      aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="#menu-list">Menu</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#achiev">Achievement</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#about">About</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#feedback">Feedback</a>
-        </li>
-        <li class="nav-item">
-          <a class="" href=""></a>
-        </li>
-      </ul>
-    <ul class="nav navbar-nav navbar-right">
-        <li> <a class="nav-link" href="#"><i class="fa fa-user" id="meinoelText"></i></a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
+  </nav>
   <!-- login -->
   <!-- Login Modal -->
   <div class="modal" id="loginModal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h2 class="modal-title">
-      <i class="fa fa-user" style="color: #888;"></i> Log-In 
-    </h2>
-    <form action="login.php" method="POST">
-      <div class="form-group">
-        <label for="username">Username:</label>
-        <input type="text" class="form-control" id="username" name="username" required>
-      </div>
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" class="form-control" id="password" name="password" required>
-      </div>
-      <button type="submit" class="btn btn-primary">Masuk</button>
-    </form>
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2 class="modal-title">
+        <i class="fa fa-user" style="color: #888;"></i> Masuk Sebagai Admin
+      </h2>
+      <form action="login.php" method="POST">
+        <div class="form-group">
+          <label for="username">Username:</label>
+          <input type="text" class="form-control" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Masuk</button>
+      </form>
+    </div>
   </div>
-</div>
 
 
   <script>
+    // Mengatur tindakan saat logo keranjang diklik
+    const keranjangLogo = document.querySelector('#keranjang');
+    keranjangLogo.addEventListener('click', function () {
+      // Menampilkan modal keranjang
+      document.querySelector("#cartModal").style.display = "block";
+    });
     $(document).ready(function () {
       $("#meinoelText").click(function () {
         $("#loginModal").show(); // Mengganti display dengan metode show()
@@ -121,25 +132,45 @@
   </section>
 
   <!-- home -->
+  <section>
+    <div></div>
+  </section>
   <section id="menu-list" class="section-padding">
     <div class="container">
       <div class="row">
         <div class="col-md-12 text-center marb-35">
-          <h1 class="header-h">Our Product</h1>
-          <p class="header-p">Hadirkan kesempurnaan pada hidup Anda dengan cemilan-cemilan berkualitas dari kami </p>
+          <h1 class="header-h">Produk Kami</h1>
+          <p class="header-p">Anda dapat Memesan Produk Kami Melalui Whatsapp</p>
           <br>
         </div>
         <div class="row">
           <div class="col-md-12 filters">
             <div class="text-center mb-5">
-              <button class="btn btn-outline-warning filter-button" data-filter="all">All</button>
-              <button class="btn btn-outline-warning filter-button" data-filter="keripik">Keripik</button>
-              <button class="btn btn-outline-warning filter-button" data-filter="sambal">Sambal</button>
-              <button class="btn btn-outline-warning filter-button" data-filter="minuman">Minuman</button>
-              <button class="btn btn-outline-warning filter-button" data-filter="cemilan">Cemilan</button>
+              <button class="btn btn-outline-warning filter-button" data-filter="all">Semua</button>
+              <?php
+              // Koneksi ke database
+              require('config/config.php');
+
+              // Query untuk mendapatkan kategori dari tabel
+              $sql = "SELECT DISTINCT kategori FROM produk";
+              $result = $conn->query($sql);
+
+              if ($result->num_rows > 0) {
+                // Membuat tombol filter berdasarkan kategori
+                while ($row = $result->fetch_assoc()) {
+                  $kategori = $row["kategori"];
+                  echo '<button class="btn btn-outline-warning filter-button" data-filter="'.$kategori.'">'.$kategori.'</button>';
+                }
+              }
+
+              // Menutup koneksi database
+              $conn->close();
+              ?>
+
             </div>
           </div>
         </div>
+
         <!-- menu -->
         <?php
 // Koneksi ke database
@@ -185,7 +216,6 @@ while ($row = mysqli_fetch_assoc($result)) {
   $image_data = ob_get_clean();
   $image_data = base64_encode($image_data);
   $nama_produk = $row['nama_produk'];
-  $pesan_template = urlencode("Halo, saya ingin memesan produk " . $nama_produk . "\nJumlah pesanan:\nAlamat pengiriman:\nTerimakasih.");
   // Menampilkan produk
   echo '<div class="col-md-4 col-sm-6 filter ' . $row['kategori'] . '">';
   echo '<div class="card">';
@@ -193,9 +223,12 @@ while ($row = mysqli_fetch_assoc($result)) {
   echo '<div class="card-body">';
   echo '<h4 class="card-title animate__animated animate__bounceInLeft">' . $row['nama_produk'] . '</h4>';
   echo '<p class="card-text animate__animated animate__bounceInRight">Rp. ' . $row['harga_produk'] . '</p>';
-  echo '<p class="card-text animate__animated animate__bounceInRight">Stok Tersedia :' . $row['stok'] . '</p>';
+  echo '<p class="card-text animate__animated animate__bounceInRight">Stok Tersedia: ' . $row['stok'] . '</p>';
+  echo '<p class="card-text animate__animated animate__bounceInRight">Kategori: ' . $row['kategori'] . '</p>'; // Menampilkan kategori
   echo '<div class="btn-lala">';
-  echo '<a href="https://wa.me/6282255333425?text=' . $pesan_template . '" class="btn btn-primary">Pesan</a>';
+  echo '<a href="#" class="btn btn-primary addToCart" data-id="' . $row['id_produk'] . '" data-nama="' . $row['nama_produk'] . '" data-harga="' . $row['harga_produk'] . '">';
+  echo '<i class="fa fa-shopping-cart"></i>';
+  echo '</a>';
   echo '</div>';
   echo '</div>';
   echo '</div>';
@@ -203,10 +236,162 @@ while ($row = mysqli_fetch_assoc($result)) {
   
   // Menghapus gambar dari memori
   imagedestroy($thumb);
-}
+  }
+  
+  mysqli_close($conn);
+  ?>
+  
+<div class="modal" id="cartModal" style="background-color: #f2f2f2; padding: 20px; border-radius: 5px; margin-top: 50px;">
+  <div class="modal-content" style="background-color: #fff; padding: 20px; max-width: 700px; margin: 0 auto;">
+    <h2 class="modal-title" style="color: #000; text-align: center; margin-bottom: 20px;">
+      <i class="" style="color: #000;"></i> Keranjang
+    </h2>
 
-mysqli_close($conn);
-?>
+    <!-- Tabel -->
+    <table id="cartTable" style="width: 100%; border-collapse: collapse;">
+      <thead>
+        <tr>
+          <th style="border: 1px solid #ddd; padding: 8px;">Nama Produk</th>
+          <th style="border: 1px solid #ddd; padding: 8px;">Harga Produk</th>
+          <th style="border: 1px solid #ddd; padding: 8px;">Jumlah</th>
+          <th style="border: 1px solid #ddd; padding: 8px;"></th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+
+    <!-- Input Nama -->
+    <div class="nama-pemesan" style="margin-top: 20px;">
+      <label for="nama" style="color: #000; display: block; margin-bottom: 5px;">Nama:</label>
+      <input type="text" id="nama" name="nama" placeholder="Masukkan nama" style="width: 100%; padding: 8px;" required>
+    </div>
+
+    <!-- Input Nomor Telepon -->
+    <div class="nomor-telepon" style="margin-top: 20px;">
+      <label for="nomorTelepon" style="color: #000; display: block; margin-bottom: 5px;">Nomor Telepon:</label>
+      <input type="text" id="nomorTelepon" name="nomorTelepon" placeholder="Masukkan nomor telepon" style="width: 100%; padding: 8px;" required>
+    </div>
+
+    <!-- Input Alamat Pengiriman -->
+    <form id="checkoutForm">
+  <div class="alamat-pengiriman" style="margin-top: 20px;">
+    <label for="alamat" style="color: #000; display: block; margin-bottom: 5px;">Alamat Pengiriman:</label>
+    <input type="text" id="alamat" name="alamat" placeholder="Masukkan alamat pengiriman" style="width: 100%; padding: 8px;" required>
+  </div>
+
+  <div class="modal-footer" style="margin-top: 20px; text-align: center;">
+    <button class="btn btn-primary" id="checkoutBtn" style="background-color: #4CAF50; color: #fff; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;" required>Beli</button>
+    <button class="btn btn-secondary" id="continueShoppingBtn" style="background-color: #ccc; color: #000; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Lanjutkan Berbelanja</button>
+  </div>
+</form>
+
+
+<script>
+// Mengatur tindakan saat tombol Beli di klik
+const checkoutBtn = document.querySelector('#checkoutBtn');
+checkoutBtn.addEventListener('click', function () {
+  const tableRows = document.querySelectorAll('#cartTable tbody tr');
+  let message = "Daftar Pesanan:%0A%0A";
+  let totalHarga = 0;
+
+  tableRows.forEach(function (row) {
+    const namaProduk = row.cells[0].innerText;
+    const hargaProduk = row.cells[1].innerText;
+    const jumlahProduk = row.cells[2].querySelector('.quantityInput');
+    const subtotal = hargaProduk * jumlahProduk.value;
+
+    message += `Produk%3A%20${namaProduk}%0A`;
+    message += `Jumlah%3A%20${jumlahProduk.value}%0A`;
+    message += `Subtotal%3A%20${subtotal}%0A%0A`;
+
+    totalHarga += subtotal;
+  });
+
+  const namaPemesan = document.querySelector('#nama').value;
+  const nomorTelepon = document.querySelector('#nomorTelepon').value;
+  const alamatPengiriman = document.querySelector('#alamat').value;
+
+  // Memeriksa apakah ada data inputan yang kosong
+  if (namaPemesan.trim() === '' || nomorTelepon.trim() === '' || alamatPengiriman.trim() === '') {
+    alert('Mohon lengkapi semua data');
+    return;
+  }
+
+  // Memeriksa apakah ada produk dalam keranjang
+  if (tableRows.length === 0) {
+    alert('Keranjang belanja kosong');
+    return;
+  }
+
+  const waMessage = `Nama: ${namaPemesan}%0ANomor Telepon: ${nomorTelepon}%0AAlamat Pengiriman: ${alamatPengiriman}%0A%0A${message}Total Harga: ${totalHarga}`;
+
+  const waLink = `https://api.whatsapp.com/send?phone=6282255333425&text=${encodeURIComponent(waMessage)}`;
+  window.open(waLink, '_blank');
+});
+
+// Mengatur tindakan saat tombol Lanjutkan Berbelanja di klik
+const continueShoppingBtn = document.querySelector('#continueShoppingBtn');
+continueShoppingBtn.addEventListener('click', function () {
+  // Lakukan tindakan lanjutan saat tombol Lanjutkan Berbelanja di klik
+  // ...
+
+  // Setelah tombol Lanjutkan Berbelanja diklik, tutup modal keranjang
+  document.querySelector("#cartModal").style.display = "none";
+});
+
+// Mengatur tindakan saat ikon keranjang diklik
+const addToCartButtons = document.querySelectorAll('.addToCart');
+addToCartButtons.forEach(function (button) {
+  button.addEventListener('click', function () {
+    const idProduk = this.getAttribute('data-id');
+    const namaProduk = this.getAttribute('data-nama');
+    const hargaProduk = this.getAttribute('data-harga');
+
+    // Memeriksa apakah produk sudah ada di keranjang
+    const existingRow = document.querySelector(`#cartTable tbody tr[data-id="${idProduk}"]`);
+    if (existingRow) {
+      // Jika produk sudah ada, tambahkan jumlah pesanan
+      const quantityInput = existingRow.querySelector('.quantityInput');
+      const currentQuantity = parseInt(quantityInput.value);
+      quantityInput.value = currentQuantity + 1;
+    } else {
+      // Jika produk belum ada, tambahkan produk baru ke dalam tabel pada modal
+      const tableBody = document.querySelector('#cartTable tbody');
+      const newRow = document.createElement('tr');
+      newRow.setAttribute('data-id', idProduk);
+      newRow.innerHTML = `
+        <td>${namaProduk}</td>
+        <td>${hargaProduk}</td>
+        <td><input type="number" min="1" value="1" class="quantityInput" style="width:200px;"></td>
+        <td><button class="removeBtn">Remove</button></td>
+      `;
+      tableBody.appendChild(newRow);
+
+      // Mengatur tindakan saat tombol Remove di klik
+      const removeBtn = newRow.querySelector('.removeBtn');
+      removeBtn.addEventListener('click', function () {
+        newRow.remove();
+      });
+    }
+
+    // Menampilkan alert
+    alert('Produk berhasil ditambahkan ke keranjang');
+
+    // Mengarahkan pengguna ke bagian produk
+    const productSection = document.querySelector('#product');
+    productSection.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+
+  // Mengatur tindakan saat ikon keranjang di klik
+  const cartIcon = document.querySelector('#cartIcon');
+  cartIcon.addEventListener('click', function () {
+    // Lakukan tindakan lanjutan saat ikon keranjang di klik
+    // ...
+  });
+</script>
 
 
         <!-- end -->
@@ -219,67 +404,53 @@ mysqli_close($conn);
     <div class="container">
       <div class="row">
         <div class="col-xs-12 text-center" style="padding:60px;">
-          <h1 class="header-h">Achievement</h1>
-          <p class="header-p">Decorations 100% complete here</p>
+          <h1 class="header-h">Pencapaian</h1>
         </div>
         <div class="col-md-12" style="padding-bottom:60px;">
           <div id="event-carousel" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
-              <div class="item active">
+              <?php
+                // Kode untuk menghubungkan ke database
+                require('config/config.php');
+
+                // Cek koneksi ke database
+                if (mysqli_connect_errno()) {
+                  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+                  exit();
+                }
+
+                // Query untuk mengambil data pencapaian
+                $query = "SELECT * FROM pencapaian";
+                $result = mysqli_query($conn, $query);
+
+                // Simpan hasil query ke dalam variabel $pencapaian
+                $pencapaian = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+                // Tutup koneksi ke database
+                mysqli_close($conn);
+
+                // Loop melalui setiap pencapaian
+                foreach ($pencapaian as $index => $row) {
+                  $active = ($index == 0) ? 'active' : '';
+              ?>
+              <div class="item <?php echo $active; ?>">
                 <div class="col-md-6 col-sm-6 left-images">
-                  <img src="img/kerjasama.jpg" class="img-responsive">
+                  <?php
+    // Menampilkan gambar dari tipe data longblob
+    echo '<img src="data:image/jpeg;base64,' . base64_encode($row['gambar_pencapaian']) . '" class="img-responsive">';
+    ?>
                 </div>
                 <div class="col-md-6 col-sm-6 details-text">
                   <div class="content-holder">
-                    <h2>Menjalin Hubungan Kerjasama dengan Perusahaan Ternama</h2>
-                    <p> Meinoel keripik pisang hadir di tengah-tengah masyarakat dengan tekad yang kuat untuk memberikan
-                      yang terbaik bagi para konsumennya. Selain menjual keripik pisang biasa,Meinoel keripik pisang
-                      juga menjalin kerjasama dengan beberapa organisasi dan perusahaan ternama, seperti Hoten Grand
-                      Mercure Medan. Kini, pengunjung hotel tersebut bisa menikmati keripik pisang premium dari Meinoel
-                      keripik pisang yang disajikan dengan kualitas terbaik. Tidak hanya itu, Meinoel keripik pisang
-                      juga berkomitmen untuk terus mengembangkan produknya agar semakin memuaskan para pelanggannya.
-                      Dengan begitu, tak heran jika Meinoel keripik pisang semakin dikenal sebagai salah satu produsen
-                      keripik pisang terbaik di Indonesia.</p>
+                    <h2><?php echo $row['judul_pencapaian']; ?></h2>
+                    <p><?php echo $row['text_pencapaian']; ?></p>
                   </div>
                 </div>
               </div>
-              <div class="item">
-                <div class="col-md-6 col-sm-6 left-images">
-                  <img src="img/pelatihan.jpg" class="img-responsive">
-                </div>
-                <div class="col-md-6 col-sm-6 details-text">
-                  <div class="content-holder">
-                    <h2>Mengikuti Pelatihan Hak Kekayaan Intelektual (HKI) </h2>
-                    <p>Hak Kekayaan Intelektual (HKI) adalah kesempatan yang sangat berharga bagi setiap perusahaan atau
-                      individu yang ingin melindungi hak-hak kekayaan intelektual mereka. Dalam pelatihan ini, Meinoel
-                      keripik pisang mempelajari berbagai jenis HKI seperti hak paten, hak merek, dan hak cipta, serta
-                      bagaimana cara mengajukan permohonan dan memperoleh perlindungan HKI. Dengan memahami HKI dengan
-                      baik, Meinoel keripik pisang dapat memastikan bahwa hak-hak kekayaan intelektual mereka dilindungi
-                      secara hukum dan tidak akan disalahgunakan oleh pihak lain.</p>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="col-md-6 col-sm-6 left-images">
-                  <img src="img/mentri.jpg" class="img-responsive">
-                </div>
-                <div class="col-md-6 col-sm-6 details-text">
-                  <div class="content-holder">
-                    <h2>Kunjungan Kementerian Pariwisata dan Ekonomi Kreatif Indonesia </h2>
-                    <p>Ekonomi Kreatif Indonesia Keripik pisang Noel adalah salah satu oleh-oleh khas dari Toba ,
-                      khususnya daerah Balige. Makanan ini terbuat dari pisang yang diiris tipis-tipis kemudian digoreng
-                      hingga kering dan renyah. Dengan varian rasa yang beragam keripik pisang Noel memiliki cita rasa
-                      yang unik dan menggugah selera.Tidak hanya itu, keripik pisang Noel juga telah dicicipi oleh
-                      Kementerian Pariwisata dan Ekonomi Kreatif Indonesia bersama dengan Bapak Ir. Poltak Sitorus
-                      sebagai Bupati Toba. Hal ini menjadikan Keripik pisang Noel sebagai produk kuliner yang sangat
-                      potensial dalam meningkatkan pariwisata Indonesia.
-                      Dengan keunikan rasa dan pengakuan dari pihak terkait, para pelaku usaha dapat terus mengembangkan
-                      keripik pisang Noel menjadi produk yang semakin menarik bagi konsumen. Selain itu, pengembangan
-                      produk ini juga dapat menjadi peluang bisnis yang menjanjikan bagi masyarakat sekitar yang ingin
-                      mencoba berwirausaha.</p>
-                  </div>
-                </div>
-              </div>
+
+              <?php
+                }
+              ?>
             </div>
             <a class="left carousel-control" href="#event-carousel" data-slide="prev">
               <span class="glyphicon glyphicon-chevron-left"></span>
@@ -354,8 +525,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $currentDateTime = date('Y-m-d H:i:s');
 
   // Prepare SQL query
-  $stmt = mysqli_prepare($conn, "INSERT INTO feedback (nama_user, email_user, feedback_user, waktu_pengiriman, id_akun) VALUES (?, ?, ?, ?, ?)");
-  mysqli_stmt_bind_param($stmt, "sssss", $name, $email, $feedback, $currentDateTime, $id_akun);
+  $stmt = mysqli_prepare($conn, "INSERT INTO feedback (nama_user, email_user, feedback_user, waktu_pengiriman, id_akun, status_feedback) VALUES (?, ?, ?, ?, ?, ?)");
+  $status_feedback = 'tampilkan';
+  mysqli_stmt_bind_param($stmt, "ssssss", $name, $email, $feedback, $currentDateTime, $id_akun, $status_feedback);
+  
 
   // Set the id_akun value based on the logged-in user's id
   // Change the following line based on your authentication mechanism
@@ -372,7 +545,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 // Fetch feedback data from database
-$feedbackQuery = "SELECT nama_user, feedback_user, waktu_pengiriman FROM feedback";
+$feedbackQuery = "SELECT nama_user, feedback_user, waktu_pengiriman FROM feedback where status_feedback ='tampilkan'ORDER BY waktu_pengiriman DESC  ";
 $result = mysqli_query($conn, $feedbackQuery);
 
 ?>
@@ -382,7 +555,7 @@ $result = mysqli_query($conn, $feedbackQuery);
     <div class="row">
       <div class="col-md-12">
         <div class="text-center">
-          <h1 class="header-h">Feedback</h1>
+          <h1 class="header-h">Ulasan</h1>
           <p class="header-p">Bantu Kami Menyempurnakan Meinoel Keripik Pisang</p>
         </div>
       </div>
@@ -406,8 +579,8 @@ $result = mysqli_query($conn, $feedbackQuery);
           <br>
         </div>
       </div>
-      <div class="col-md-6" style="height: 330px;">
-        <div class="bg-white" style="max-height: 100%; overflow: auto;">
+      <div class="col-md-6" style="height: 500px;">
+        <div class="bg-white" style="max-height: 100%;">
           <table class="table">
             <thead>
               <tr>
@@ -419,29 +592,65 @@ $result = mysqli_query($conn, $feedbackQuery);
             </thead>
             <tbody>
               <?php
-              if (mysqli_num_rows($result) > 0) {
-                $counter = 1;
-                while ($row = mysqli_fetch_assoc($result)) {
-                  $nama = $row['nama_user'];
-                  $feedback = $row['feedback_user'];
-                  $waktuPengiriman = $row['waktu_pengiriman'];
+$feedbacksPerPage = 5; // Jumlah feedback yang ingin ditampilkan per halaman
 
-                  echo "<tr>";
-                  echo "<td>$counter</td>"; // Menampilkan nomor urut
-                  echo "<td>$nama</td>";
-                  echo "<td>$feedback</td>";
-                  echo "<td>$waktuPengiriman</td>";
-                  echo "</tr>";
-                  $counter++;
-                }
-              } else {
-                echo "<tr><td colspan='4'>Tidak ada data feedback</td></tr>";
-              }
-              ?>
+$page = isset($_GET['page']) ? $_GET['page'] : 1; // Inisialisasi variabel $page
+
+if (mysqli_num_rows($result) > 0) {
+  $counter = 1;
+  $feedbacks = array();
+  while ($row = mysqli_fetch_assoc($result)) {
+    $row['status_feedback'] = 'ditampilkan'; // Mengubah status_feedback menjadi "ditampilkan"
+    $feedbacks[] = $row;
+  }
+
+  // Menghitung jumlah total halaman
+  $totalPages = ceil(count($feedbacks) / $feedbacksPerPage);
+
+  // Menentukan batas awal dan akhir feedback yang akan ditampilkan
+  $startIndex = ($page - 1) * $feedbacksPerPage;
+  $endIndex = $startIndex + $feedbacksPerPage - 1;
+  $endIndex = min($endIndex, count($feedbacks) - 1);
+
+  for ($i = $startIndex; $i <= $endIndex; $i++) {
+    $feedback = $feedbacks[$i];
+    $nama = $feedback['nama_user'];
+    $feedbackText = $feedback['feedback_user'];
+    $waktuPengiriman = $feedback['waktu_pengiriman'];
+
+    echo "<tr>";
+    echo "<td>$counter</td>";
+    echo "<td>$nama</td>";
+    echo "<td>$feedbackText</td>";
+    echo "<td>$waktuPengiriman</td>";
+    echo "</tr>";
+    $counter++;
+  }
+
+  // Menampilkan navigasi halaman
+  echo "<tr><td colspan='4'>";
+  echo "<ul class='pagination'>";
+  if ($page > 1) {
+    echo "<li class='page-item'><a class='page-link' href='?page=" . ($page - 1) . "'>Previous</a></li>";
+  }
+  for ($i = 1; $i <= $totalPages; $i++) {
+    echo "<li class='page-item" . ($i == $page ? " active" : "") . "'><a class='page-link' href='?page=$i'>$i</a></li>";
+  }
+  if ($page < $totalPages) {
+    echo "<li class='page-item'><a class='page-link' href='?page=" . ($page + 1) . "'>Next</a></li>";
+  }
+  echo "</ul>";
+  echo "</td></tr>";
+} else {
+  echo "<tr><td colspan='4'>Tidak ada data feedback</td></tr>";
+}
+?>
             </tbody>
           </table>
         </div>
       </div>
+
+
     </div>
   </div>
 </section>
@@ -458,12 +667,12 @@ mysqli_close($conn);
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Thank you for your feedback!</h5>
+        <h5 class="modal-title">Terimakasih atas Ulasan Anda!</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p>We appreciate your feedback and will use it to improve our product and provide better service to you in the
-          future.</p>
+        <p>Kami menghargai masukan Anda dan akan menggunakannya untuk meningkatkan produk kami serta memberikan
+          pelayanan yang lebih baik kepada Anda di masa mendatang.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary close-modal">Close</button>
@@ -487,30 +696,43 @@ mysqli_close($conn);
 <?php endif; ?>
 
 <!-- /feedback -->
-<footer class="footer text-center" id="footer">
+<footer class="footer text-right   " id="footer">
   <div class="footer-top">
     <div class="row">
-      <div class="col-md-offset-3 col-md-6 text-center">
+      <div class="col-md-6">
         <div class="widget">
           <h4 class="widget-title">Meinoel<br>Keripik Pisang</h4>
           <address>
-            <a href="#">Sibola Hotangsas, Balige<br>Toba, Sumatera Utara 22316</a>
+            Sibola Hotangsas, Balige<br>
+            Toba, Sumatera Utara 22316
           </address>
           <div class="social-list">
             <a href="https://www.instagram.com/meinoel.keripikpisang/"><i class="fa fa-instagram"
                 aria-hidden="true"></i></a>
             <a href="https://www.facebook.com/cemilkreakriftoba"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-            <a
-              href="https://wa.me/6282255333425?text=Halo%2C%20saya%20ingin%20memesan%20%3A%0AJumlah%20pesanan%20%3A%0AAlamat%20pengiriman%20%3A%0ATerimakasih.">
-              <i class="fa fa-whatsapp" aria-hidden="true"></i></a>
+            <a href="https://wa.me/6282255333425"><i class="fa fa-whatsapp" aria-hidden="true"></i></a>
           </div>
-          <p class="clear-float">© Meinoel Keripik Pisang. All Rights Reserved</p>
-          <div class="credits"></div>
+        </div>
+      </div>
+      <div class="col-md-6 text-left">
+        <div class="widget">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3984.6008114944816!2d99.07239201434666!3d2.337020098672403!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x302e053d23acdf9d%3A0x161cccc22e64c4ca!2sKripik%20pisang%20noel!5e0!3m2!1sen!2sid!4v1623785300451!5m2!1sen!2sid"
+            width="500" height="300" style="border:0;margin-right:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
       </div>
     </div>
   </div>
+  <div class="footer-bottom">
+    <div class="row">
+      <div class="col-md-12">
+        <p class="clear-float">© Meinoel Keripik Pisang. All Rights Reserved</p>
+        <div class="credits"></div>
+      </div>
+    </div>
+  </div>
 </footer>
+
 
 
 <!-- / footer -->

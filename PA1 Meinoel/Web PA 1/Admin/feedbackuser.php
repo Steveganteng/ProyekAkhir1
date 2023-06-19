@@ -62,20 +62,24 @@ if(!isset($_SESSION['loggedin'])){
     </div>
   </div>
 </div>
-  <nav id="navbar" class="nav-menu navbar">
-    <ul>
-      <li><a href="admin.php"><i class="bx bx-box"></i> <span>Product</span></a></li>
-      <li><a href="#about" class="nav-link scrollto active"><i class="bx bx-comment"></i> <span>Feedback</span></a></li>
-      <li><a href="#" onclick="showConfirModal()"><i class="bx bx-log-out"></i> <span>Log Out</span></a></li>
-    </ul>
-  </nav>
+<nav id="navbar" class="nav-menu navbar">
+  <ul>
+    <li><a href="admin.php"><i class="bx bx-box"></i> <span>Product</span></a></li>
+    <li><a href="kategori.php"><i class="bx bx-category-alt"></i> <span>Kategori</span></a></li>
+    <li><a href="pencapaian.php"><i class="bx bx-trophy"></i> <span>Pencapaian</span></a></li>
+    <li><a href="#about" class="nav-link scrollto active"><i class="bx bx-comment"></i> <span>Ulasan</span></a></li>
+    <li><a href="sosmed.php"><i class="bx bx-mobile-alt"></i> <span>Sosial Media</span></a></li>
+    <li><a href="#" onclick="showConfirmationModal()"><i class="bx bx-log-out"></i> <span>Keluar</span></a></li>
+  </ul>
+</nav>
 
-  <script>
-    function showConfirModal() {
-      var confirmationModal = new bootstrap.Modal(document.getElementById('confirModal'));
-      confirmationModal.show();
-    }
-  </script>
+<script>
+  function showConfirmationModal() {
+    var confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+    confirmationModal.show();
+  }
+</script>
+
 </header>
 
 
@@ -94,43 +98,8 @@ if(!isset($_SESSION['loggedin'])){
   <main id="main">
 
 
-<script>
-  // Show the modal
-  $(document).ready(function() {
-    $('#feedback-modal').modal('show');
-  });
-
-  // Add event listener to X button and Close button
-  $('.btn-close, .close-modal').on('click', function() {
-    $('#feedback-modal').modal('hide');
-    window.location.href = 'index.php';
-  });
-
-  $(document).ready(function() {
-    $('.delete-feedback').on('click', function() {
-      var feedbackId = $(this).data('feedback-id');
-      var feedbackNama = $(this).closest('tr').find('td:eq(1)').text();
-      var feedbackEmail = $(this).closest('tr').find('td:eq(2)').text();
-      var feedbackText = $(this).closest('tr').find('td:eq(3)').text();
-
-      $('#feedbackId').val(feedbackId);
-      $('#feedbackNama').text(feedbackNama);
-      $('#feedbackEmail').text(feedbackEmail);
-      $('#feedbackText').text(feedbackText);
-
-      $('#confirmationModal').modal('show');
-    });
-
-    $('#confirmationModal').on('hidden.bs.modal', function() {
-      $('#feedbackId').val('');
-      $('#feedbackNama').text('');
-      $('#feedbackEmail').text('');
-      $('#feedbackText').text('');
-    });
-  });
-</script>
-<div class="container mt-5" id="about">
-  <h1 class="mb-5">Feedback Users</h1>
+  <div class="container mt-5" id="about">
+  <h1 class="mb-5">Ulasan Pengguna</h1>
   <div class="table-responsive">
     <table class="table table-striped table-hover">
       <thead class="thead-dark">
@@ -151,8 +120,37 @@ if(!isset($_SESSION['loggedin'])){
           die("Connection failed: " . mysqli_connect_error());
         }
 
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+          // Check if the form is submitted for hiding feedback
+          if (isset($_POST["sembunyikan"])) {
+            $feedbackId = $_POST["feedback_id"];
+
+            // Update the status_feedback in the database
+            $updateSql = "UPDATE feedback SET status_feedback = 'sembunyi' WHERE id_feedback = $feedbackId";
+            if (mysqli_query($conn, $updateSql)) {
+              // Success message or further actions
+              echo "<script>alert('Feedback berhasil disembunyikan.'); window.location.href = 'feedbackuser.php';</script>";
+            } else {
+              // Error message or handling
+              echo "<script>alert('Terjadi kesalahan. Mohon coba lagi.'); $('#sembunyikanModal').modal('hide');</script>";
+            }
+          } elseif (isset($_POST["tampilkan"])) {
+            $feedbackId = $_POST["feedback_id"];
+
+            // Update the status_feedback in the database
+            $updateSql = "UPDATE feedback SET status_feedback = 'tampilkan' WHERE id_feedback = $feedbackId";
+            if (mysqli_query($conn, $updateSql)) {
+              // Success message or further actions
+              echo "<script>alert('Feedback berhasil ditampilkan.'); window.location.href = 'feedbackuser.php';</script>";
+            } else {
+              // Error message or handling
+              echo "<script>alert('Terjadi kesalahan. Mohon coba lagi.'); $('#tampilkanModal').modal('hide');</script>";
+            }
+          }
+        }
+
         // Fetch data from feedback table
-        $sql = "SELECT * FROM feedback";
+        $sql = "SELECT * FROM feedback ORDER BY waktu_pengiriman DESC";
         $result = mysqli_query($conn, $sql);
 
         if (mysqli_num_rows($result) > 0) {
@@ -160,22 +158,31 @@ if(!isset($_SESSION['loggedin'])){
           $nomor = 1;
 
           // Output data of each row
-          while ($row = mysqli_fetch_assoc($result)) {
-            echo "<tr>";
-            echo "<td>" . $nomor . "</td>";
-            echo "<td>" . $row["nama_user"] . "</td>";
-            echo "<td>" . $row["email_user"] . "</td>";
-            echo "<td>" . $row["feedback_user"] . "</td>";
-            echo "<td>";
-            echo "<button type='submit' class='btn btn-danger bx bx-trash delete-feedback' data-feedback-id='" . $row['id_feedback'] . "' onclick='showConfirmationModal'>Hapus</button>";
-            echo "</td>";
-            echo "</tr>";
+// Output data of each row
+while ($row = mysqli_fetch_assoc($result)) {
+  echo "<tr>";
+  echo "<td>" . $nomor . "</td>";
+  echo "<td>" . $row["nama_user"] . "</td>";
+  echo "<td>" . $row["email_user"] . "</td>";
+  echo "<td>" . $row["feedback_user"] . "</td>";
+  echo "<td>";
 
-            // Increment nomor setelah setiap baris
-            $nomor++;
-          }
+  // Check status_feedback and display corresponding button
+  if ($row["status_feedback"] == "sembunyi") {
+    echo "<button type='button' class='btn btn-success bx bx-show show-feedback' data-feedback-id='" . $row['id_feedback'] . "' onclick='showTampilkanModal(" . $row['id_feedback'] . ", \"" . $row['nama_user'] . "\", \"" . $row['email_user'] . "\", \"" . $row['feedback_user'] . "\")'>Tampilkan</button>";
+  } else {
+    echo "<button type='button' class='btn btn-danger bx bx-hide hide-feedback' data-feedback-id='" . $row['id_feedback'] . "' onclick='showSembunyikanModal(" . $row['id_feedback'] . ", \"" . $row['nama_user'] . "\", \"" . $row['email_user'] . "\", \"" . $row['feedback_user'] . "\")'>Sembunyikan</button>";
+  }
+
+  echo "</td>";
+  echo "</tr>";
+
+  // Increment nomor setelah setiap baris
+  $nomor++;
+}
+
         } else {
-          echo "<tr><td colspan='5'>0 results</td></tr>";
+          echo "<tr><td colspan='5'>Tidak ada data feedback</td></tr>";
         }
 
         mysqli_close($conn);
@@ -185,26 +192,54 @@ if(!isset($_SESSION['loggedin'])){
   </div>
 </div>
 
-<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+<!-- Modal untuk Sembunyikan -->
+<div class="modal fade" id="sembunyikanModal" tabindex="-1" role="dialog" aria-labelledby="sembunyikanModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="confirmationModalLabel">Hapus Feedback</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal()">
+        <h5 class="modal-title" id="sembunyikanModalLabel">Sembunyikan Feedback</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeSembunyikanModal()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <p>Apakah anda yakin untuk menghapus feedback ini?</p>
-        <p><strong>Nama:</strong> <span id="feedbackNama"></span></p>
-        <p><strong>Email:</strong> <span id="feedbackEmail"></span></p>
-        <p><strong>Feedback:</strong> <span id="feedbackText"></span></p>
+        <p>Apakah Anda yakin ingin menyembunyikan feedback ini?</p>
+        <p><strong>Nama:</strong> <span id="sembunyikanNama"></span></p>
+        <p><strong>Email:</strong> <span id="sembunyikanEmail"></span></p>
+        <p><strong>Feedback:</strong> <span id="sembunyikanText"></span></p>
       </div>
       <div class="modal-footer">
-        <form method="post" action="delete_feedback.php">
-          <input type="hidden" id="feedbackId" name="feedback_id" value="" />
-          <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">Batal</button>
-          <button type="submit" name="hapus" class="btn btn-danger" onclick="redirectToFeedbackUser()">Hapus</button>
+        <form method="post">
+          <input type="hidden" id="sembunyikanId" name="feedback_id" value="" />
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeSembunyikanModal()">Batal</button>
+          <button type="submit" name="sembunyikan" class="btn btn-danger">Sembunyikan</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal untuk Tampilkan -->
+<div class="modal fade" id="tampilkanModal" tabindex="-1" role="dialog" aria-labelledby="tampilkanModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="tampilkanModalLabel">Tampilkan Feedback</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeTampilkanModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Apakah Anda yakin ingin menampilkan feedback ini?</p>
+        <p><strong>Nama:</strong> <span id="tampilkanNama"></span></p>
+        <p><strong>Email:</strong> <span id="tampilkanEmail"></span></p>
+        <p><strong>Feedback:</strong> <span id="tampilkanText"></span></p>
+      </div>
+      <div class="modal-footer">
+        <form method="post">
+          <input type="hidden" id="tampilkanId" name="feedback_id" value="" />
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeTampilkanModal()">Batal</button>
+          <button type="submit" name="tampilkan" class="btn btn-success">Tampilkan</button>
         </form>
       </div>
     </div>
@@ -212,27 +247,51 @@ if(!isset($_SESSION['loggedin'])){
 </div>
 
 <script>
+  // Skrip JavaScript
+  function showSembunyikanModal(id, nama, email, feedback) {
+    document.getElementById("sembunyikanId").value = id;
+    document.getElementById("sembunyikanNama").textContent = nama;
+    document.getElementById("sembunyikanEmail").textContent = email;
+    document.getElementById("sembunyikanText").textContent = feedback;
+
+    $('#sembunyikanModal').modal('show');
+  }
+
+  function closeSembunyikanModal() {
+    $('#sembunyikanModal').modal('hide');
+  }
+
+  function showTampilkanModal(id, nama, email, feedback) {
+    document.getElementById("tampilkanId").value = id;
+    document.getElementById("tampilkanNama").textContent = nama;
+    document.getElementById("tampilkanEmail").textContent = email;
+    document.getElementById("tampilkanText").textContent = feedback;
+
+    $('#tampilkanModal').modal('show');
+  }
+
+  function closeTampilkanModal() {
+    $('#tampilkanModal').modal('hide');
+  }
+</script>
+
+
+<script>
+  function showConfirmationModal(feedbackId, nama, email, feedbackText) {
+    document.getElementById('feedbackId').value = feedbackId;
+    document.getElementById('feedbackNama').textContent = nama;
+    document.getElementById('feedbackEmail').textContent = email;
+    document.getElementById('feedbackText').textContent = feedbackText;
+    $('#confirmationModal').modal('show');
+  }
+
   function closeModal() {
     $('#confirmationModal').modal('hide');
   }
 
   function redirectToFeedbackUser() {
-    $('#confirmationModal').modal('hide');
-    window.location.href = 'feedbackuser.php';
-  }
-
-  function showConfirmationModal(button) {
-    var feedbackId = button.getAttribute('data-feedback-id');
-    var feedbackNama = button.parentElement.parentElement.querySelector('td:nth-child(2)').innerText;
-    var feedbackEmail = button.parentElement.parentElement.querySelector('td:nth-child(3)').innerText;
-    var feedbackText = button.parentElement.parentElement.querySelector('td:nth-child(4)').innerText;
-
-    $('#feedbackId').val(feedbackId);
-    $('#feedbackNama').text(feedbackNama);
-    $('#feedbackEmail').text(feedbackEmail);
-    $('#feedbackText').text(feedbackText);
-
-    $('#confirmationModal').modal('show');
+    // Redirect to feedback user page after hiding feedback
+    window.location.href = "feedbackuser.php";
   }
 </script>
 
